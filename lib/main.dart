@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
       title: 'Lista de Compras',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.greenAccent[900],
+        primarySwatch: Colors.pink,
       ),
       home: HomePage(),
     );
