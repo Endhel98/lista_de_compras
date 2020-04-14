@@ -30,15 +30,51 @@ class HomePage extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.add_shopping_cart,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  )
+                  Icon(
+                    Icons.add_shopping_cart,
+                    color: Colors.white,
+                  ),
                 ],
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+              child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 16,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(32),
+                              color: Colors.grey[200],
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Insira o produto",
+                                hintStyle: TextStyle(),
+                                border: InputBorder.none,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.add,
+                            color: Colors.pink,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  )),
             ),
           ],
         ),
