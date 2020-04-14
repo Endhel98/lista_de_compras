@@ -1,2 +1,2 @@
 # lista_de_compras
- Aplicação mobile em Flutter e Mobx.
+ Aplicação mobile em Flutter.
