@@ -91,12 +91,10 @@ class _HomePageState extends State<HomePage> {
                 height: 100,
                 child: Padding(
                   padding: EdgeInsets.only(top: 20, left: 60, right: 60),
-                  child: _list.isEmpty
-                      ? Text("Vazia")
-                      : ListView.builder(
-                          itemBuilder: buildItem,
-                          itemCount: _list.length,
-                        ),
+                  child: ListView.builder(
+                    itemBuilder: buildItem,
+                    itemCount: _list.length,
+                  ),
                 ),
               ),
             ),
