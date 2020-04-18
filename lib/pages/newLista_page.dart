@@ -14,6 +14,7 @@ class _NewListPageState extends State<NewListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Column(
         children: <Widget>[
           Padding(
