@@ -8,6 +8,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Map> _list = List();
   final _productController = TextEditingController();
+
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
 
@@ -160,6 +161,7 @@ class _HomePageState extends State<HomePage> {
             checkColor: Colors.lightGreen,
             activeColor: Colors.white,
             dense: true,
+            controlAffinity: ListTileControlAffinity.leading,
             value: _list[index]["checked"],
             onChanged: (_) {
               setState(() {
@@ -171,6 +173,19 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 _list[index]["product"],
                 style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
+            subtitle: TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Preço",
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                border: InputBorder.none,
+              ),
+              style: TextStyle(
+                color: Colors.white,
               ),
             ),
           ),
