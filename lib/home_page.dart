@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_compras/pages/lists_page.dart';
 import 'package:lista_de_compras/pages/newLista_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -112,10 +113,11 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Expanded(
-                  child: TabBarView(children: <Widget>[
-                NewListPage(),
-                Text(""),
-              ]))
+                child: TabBarView(children: <Widget>[
+                  NewListPage(),
+                  ListsPage(),
+                ]),
+              )
             ],
           ),
         ),
