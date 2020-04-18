@@ -8,6 +8,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Map> _list = List();
   final _productController = TextEditingController();
+  final _seachController = TextEditingController();
+  bool _isSearching = false;
 
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
@@ -28,26 +30,70 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(
-                    "Lista de Compras",
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+            !_isSearching
+                ? Padding(
+                    padding: EdgeInsets.only(top: 30, left: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          "Lista de Compras",
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Icon(
+                          Icons.add_shopping_cart,
+                          color: Colors.white,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.search),
+                          color: Colors.white,
+                          onPressed: () {
+                            setState(() {
+                              _isSearching = !_isSearching;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                : Padding(
+                    padding: EdgeInsets.only(top: 30, left: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextField(
+                            controller: _seachController,
+                            autofocus: true,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: InputBorder.none,
+                              hintText: "Insira o nome da Lista",
+                              hintStyle: TextStyle(color: Colors.grey),
+                              prefixIcon:
+                                  Icon(Icons.search, color: Colors.grey),
+                            ),
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.cancel),
+                          color: Colors.white,
+                          onPressed: () {
+                            setState(
+                              () {
+                                _isSearching = !_isSearching;
+                              },
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                  Icon(
-                    Icons.add_shopping_cart,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ),
             Padding(
               padding: EdgeInsets.only(top: 50, left: 20, right: 20),
               child: Row(
