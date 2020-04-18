@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                 tabs: <Widget>[
                   Tab(
                     child: Text(
-                      "Nova Lista",
+                      "Criar Lista",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
