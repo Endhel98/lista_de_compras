@@ -143,19 +143,6 @@ class _NewListPageState extends State<NewListPage> {
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
-          subtitle: TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: "Preço",
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              border: InputBorder.none,
-            ),
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
         ),
       ),
     );
