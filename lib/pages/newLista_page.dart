@@ -15,6 +15,7 @@ class _NewListPageState extends State<NewListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
         elevation: 0,
@@ -154,7 +155,7 @@ class _NewListPageState extends State<NewListPage> {
             width: 100,
             child: Text(
               _list[index]["product"],
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
         ),
