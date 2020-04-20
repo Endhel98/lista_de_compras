@@ -19,7 +19,8 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         //extendBodyBehindAppBar: true,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.pink[400],
+          elevation: 0,
           title: !_isSearching
               ? Text(
                   "Lista de Compras",
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topCenter,
+              begin: Alignment.topRight,
               colors: [
                 Colors.pink[400],
                 Colors.pink[300],
