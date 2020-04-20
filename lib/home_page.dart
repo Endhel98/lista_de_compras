@@ -44,14 +44,25 @@ class _HomePageState extends State<HomePage> {
                 ),
           actions: <Widget>[
             !_isSearching
-                ? IconButton(
-                    icon: Icon(Icons.search),
-                    color: Colors.white,
-                    onPressed: () {
-                      setState(() {
-                        _isSearching = !_isSearching;
-                      });
-                    },
+                ? Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.search),
+                        color: Colors.white,
+                        onPressed: () {
+                          setState(
+                            () {
+                              _isSearching = !_isSearching;
+                            },
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.more_vert),
+                        color: Colors.white,
+                        onPressed: () {},
+                      )
+                    ],
                   )
                 : IconButton(
                     icon: Icon(Icons.cancel),
@@ -64,11 +75,6 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
-            IconButton(
-              icon: Icon(Icons.more_vert),
-              color: Colors.white,
-              onPressed: () {},
-            )
           ],
           bottom: TabBar(
             isScrollable: true,
