@@ -15,6 +15,19 @@ class _NewListPageState extends State<NewListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        elevation: 0,
+        label: Text(
+          "Salvar Lista",
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: Icon(
+          Icons.add_shopping_cart,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.pink[400],
+      ),
       body: Column(
         children: <Widget>[
           Padding(
@@ -60,7 +73,8 @@ class _NewListPageState extends State<NewListPage> {
             child: SizedBox(
               height: 100,
               child: Padding(
-                padding: EdgeInsets.only(top: 20, left: 60, right: 60),
+                padding:
+                    EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 70),
                 child: ListView.builder(
                   itemBuilder: buildItem,
                   itemCount: _list.length,
