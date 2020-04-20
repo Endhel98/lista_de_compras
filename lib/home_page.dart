@@ -8,7 +8,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _seachController = TextEditingController();
+  final _searchController = TextEditingController();
   bool _isSearching = false;
 
   @override
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )
               : TextField(
-                  controller: _seachController,
+                  controller: _searchController,
                   autofocus: true,
                   decoration: InputDecoration(
                     filled: true,
