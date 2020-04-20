@@ -43,7 +43,9 @@ class _NewListPageState extends State<NewListPage> {
                 ),
                 actions: <Widget>[
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     child: Text("Cancelar"),
                   ),
                   FlatButton(
