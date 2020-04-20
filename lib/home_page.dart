@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
               ? Text(
                   "Lista de Compras",
                   style: TextStyle(
-                    fontSize: 26,
+                    fontSize: 23,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
