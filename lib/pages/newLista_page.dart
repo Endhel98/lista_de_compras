@@ -8,6 +8,7 @@ class NewListPage extends StatefulWidget {
 class _NewListPageState extends State<NewListPage> {
   List<Map> _list = List();
   final _productController = TextEditingController();
+  final _listNameController = TextEditingController();
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
 
@@ -31,7 +32,7 @@ class _NewListPageState extends State<NewListPage> {
                   ),
                 ),
                 content: TextField(
-                  controller: _productController,
+                  controller: _listNameController,
                   decoration: InputDecoration(
                     hintText: "Insira o nome da Lista",
                     hintStyle: TextStyle(),
