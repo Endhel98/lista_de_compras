@@ -17,7 +17,44 @@ class _NewListPageState extends State<NewListPage> {
       backgroundColor: Colors.transparent,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Center(
+                  child: Text(
+                    "Salvando a Lista",
+                    style: TextStyle(
+                      color: Colors.pink[400],
+                    ),
+                  ),
+                ),
+                content: TextField(
+                  controller: _productController,
+                  decoration: InputDecoration(
+                    hintText: "Insira o nome da Lista",
+                    hintStyle: TextStyle(),
+                    border: InputBorder.none,
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text("Cancelar"),
+                  ),
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text("Salvar"),
+                  )
+                ],
+              );
+            },
+          );
+        },
         elevation: 0,
         label: Text(
           "Salvar Lista",
