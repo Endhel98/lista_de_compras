@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
   bool _isSearching = false;
+  List listOfLists = [];
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +110,8 @@ class _HomePageState extends State<HomePage> {
           ),
           child: TabBarView(
             children: <Widget>[
-              NewListPage(),
-              ListsPage(),
+              NewListPage(listOfLists: listOfLists),
+              ListsPage(listOfLists: listOfLists),
             ],
           ),
         ),
