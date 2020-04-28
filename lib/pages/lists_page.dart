@@ -13,7 +13,13 @@ class ListsPage extends StatelessWidget {
         itemCount: listOfLists.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(listOfLists[index]["name"]),
+            title: Text(
+              listOfLists[index]["name"],
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
           );
         },
       ),
