@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:lista_de_compras/functionsJson/functions.dart';
 import 'package:lista_de_compras/pages/lists_page.dart';
 import 'package:lista_de_compras/pages/newLista_page.dart';
 
@@ -10,7 +13,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
   bool _isSearching = false;
-  List listOfLists = [];
+  List _listOfLists = [];
+
+  @override
+  void initState() {
+    super.initState();
+    readData().then((data) {
+      setState(() {
+        _listOfLists = json.decode(data);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +123,8 @@ class _HomePageState extends State<HomePage> {
           ),
           child: TabBarView(
             children: <Widget>[
-              NewListPage(listOfLists: listOfLists),
-              ListsPage(listOfLists: listOfLists),
+              NewListPage(listOfLists: _listOfLists),
+              ListsPage(listOfLists: _listOfLists),
             ],
           ),
         ),
