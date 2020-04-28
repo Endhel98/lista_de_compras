@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_compras/functionsJson/functions.dart';
 
 class NewListPage extends StatefulWidget {
+  final List listOfLists;
+
+  NewListPage({this.listOfLists});
+
   @override
   _NewListPageState createState() => _NewListPageState();
 }
 
 class _NewListPageState extends State<NewListPage> {
   List<Map> _list = List();
-  final _productController = TextEditingController();
-  final _listNameController = TextEditingController();
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
+
+  final _productController = TextEditingController();
+  final _listNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +56,10 @@ class _NewListPageState extends State<NewListPage> {
                     child: Text("Cancelar"),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _addToDO();
+                      Navigator.pop(context);
+                    },
                     child: Text("Salvar"),
                   )
                 ],
@@ -133,6 +142,16 @@ class _NewListPageState extends State<NewListPage> {
     product["product"] = _productController.text;
     product["checked"] = false;
     _list.add(product);
+  }
+
+  void _addToDO() {
+    setState(() {
+      Map<String, dynamic> newToDo = Map();
+      newToDo["name"] = _listNameController.text;
+      newToDo["list"] = _list;
+      widget.listOfLists.add(newToDo);
+      saveData(widget.listOfLists);
+    });
   }
 
   Widget buildItem(context, index) {
