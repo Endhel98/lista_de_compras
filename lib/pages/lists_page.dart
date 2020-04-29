@@ -16,7 +16,7 @@ class _ListsPageState extends State<ListsPage> {
       backgroundColor: Colors.transparent,
       body: Container(
         padding: EdgeInsets.all(20),
-        child: ListView.builder(
+        child: ListView.separated(
           itemCount: widget.listOfLists.length,
           itemBuilder: (context, index) {
             return ListTile(
@@ -27,7 +27,11 @@ class _ListsPageState extends State<ListsPage> {
                   fontSize: 18,
                 ),
               ),
+              dense: true,
             );
+          },
+          separatorBuilder: (_, __) {
+            return Divider();
           },
         ),
       ),
