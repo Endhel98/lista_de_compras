@@ -10,8 +10,6 @@ class ListsPage extends StatefulWidget {
 }
 
 class _ListsPageState extends State<ListsPage> {
-  bool _arrow = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,17 +26,6 @@ class _ListsPageState extends State<ListsPage> {
                   color: Colors.white,
                   fontSize: 18,
                 ),
-              ),
-              trailing: IconButton(
-                icon: !_arrow
-                    ? Icon(Icons.arrow_drop_down)
-                    : Icon(Icons.arrow_drop_up),
-                color: Colors.white,
-                onPressed: () {
-                  setState(() {
-                    _arrow = !_arrow;
-                  });
-                },
               ),
             );
           },
