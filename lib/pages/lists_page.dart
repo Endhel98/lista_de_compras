@@ -3,8 +3,9 @@ import 'package:lista_de_compras/functionsJson/functions.dart';
 
 class ListsPage extends StatefulWidget {
   final List listOfLists;
+  final TabController controller;
 
-  ListsPage({this.listOfLists});
+  ListsPage({this.listOfLists, this.controller});
 
   @override
   _ListsPageState createState() => _ListsPageState();
@@ -46,6 +47,7 @@ class _ListsPageState extends State<ListsPage> {
                   });
                 },
               ),
+              onTap: () {},
             );
           },
           separatorBuilder: (_, __) {
