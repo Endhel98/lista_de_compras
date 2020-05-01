@@ -1,2 +1,2 @@
-# lista_de_compras
- Aplicação mobile em Flutter.
+# Lista de Compras
+ Uma aplicação flutter que permite salvar listas de compra e marcar itens já comprados.
