@@ -77,11 +77,6 @@ class _HomePageState extends State<HomePage>
                         );
                       },
                     ),
-                    IconButton(
-                      icon: Icon(Icons.more_vert),
-                      color: Colors.white,
-                      onPressed: () {},
-                    )
                   ],
                 )
               : IconButton(
