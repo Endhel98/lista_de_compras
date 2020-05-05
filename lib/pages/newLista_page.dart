@@ -11,7 +11,7 @@ class NewListPage extends StatefulWidget {
 }
 
 class _NewListPageState extends State<NewListPage> {
-  List<Map> _list = List();
+  List<Map> _shopping_cart = List();
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
 
@@ -127,7 +127,7 @@ class _NewListPageState extends State<NewListPage> {
                     EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 70),
                 child: ListView.builder(
                   itemBuilder: buildItem,
-                  itemCount: _list.length,
+                  itemCount: _shopping_cart.length,
                 ),
               ),
             ),
@@ -141,14 +141,14 @@ class _NewListPageState extends State<NewListPage> {
     Map product = {};
     product["product"] = _productController.text;
     product["checked"] = false;
-    _list.add(product);
+    _shopping_cart.add(product);
   }
 
   void _addToDO() {
     setState(() {
       Map<String, dynamic> newToDo = Map();
       newToDo["name"] = _listNameController.text;
-      newToDo["list"] = _list;
+      newToDo["list"] = _shopping_cart;
       widget.listOfLists.add(newToDo);
       saveData(widget.listOfLists);
     });
@@ -173,9 +173,9 @@ class _NewListPageState extends State<NewListPage> {
       ),
       onDismissed: (_) {
         setState(() {
-          _lastRemoved = Map.from(_list[index]);
+          _lastRemoved = Map.from(_shopping_cart[index]);
           _lastRemovedPos = index;
-          _list.removeAt(index);
+          _shopping_cart.removeAt(index);
 
           final snack = SnackBar(
             content: Text("Produto \"${_lastRemoved['product']}\" removido!"),
@@ -184,7 +184,7 @@ class _NewListPageState extends State<NewListPage> {
               textColor: Colors.pink,
               onPressed: () {
                 setState(() {
-                  _list.insert(_lastRemovedPos, _lastRemoved);
+                  _shopping_cart.insert(_lastRemovedPos, _lastRemoved);
                 });
               },
             ),
@@ -204,16 +204,16 @@ class _NewListPageState extends State<NewListPage> {
           activeColor: Colors.white,
           dense: true,
           controlAffinity: ListTileControlAffinity.leading,
-          value: _list[index]["checked"],
+          value: _shopping_cart[index]["checked"],
           onChanged: (_) {
             setState(() {
-              _list[index]["checked"] = !_list[index]["checked"];
+              _shopping_cart[index]["checked"] = !_list[index]["checked"];
             });
           },
           title: Container(
             width: 100,
             child: Text(
-              _list[index]["product"],
+              _shopping_cart[index]["product"],
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
