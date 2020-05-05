@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final _searchController = TextEditingController();
   bool _isSearching = false;
-  List _listOfLists = [];
+  List _list = [];
   TabController controller;
 
   @override
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage>
     controller = new TabController(vsync: this, length: 2);
     readData().then((data) {
       setState(() {
-        _listOfLists = json.decode(data);
+        _list = json.decode(data);
       });
     });
   }
@@ -125,9 +125,9 @@ class _HomePageState extends State<HomePage>
         child: TabBarView(
           controller: controller,
           children: <Widget>[
-            NewListPage(list: _listOfLists),
+            NewListPage(list: _list),
             ListsPage(
-              list: _listOfLists,
+              list: _list,
               //controller: controller,
             ),
           ],
