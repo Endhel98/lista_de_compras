@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
 
 class ListsPage extends StatefulWidget {
-  final List listOfLists;
+  final List list;
   final TabController controller;
 
-  ListsPage({this.listOfLists, this.controller});
+  ListsPage({this.list, this.controller});
 
   @override
   _ListsPageState createState() => _ListsPageState();
@@ -17,7 +17,7 @@ class _ListsPageState extends State<ListsPage> {
   @override
   void initState() {
     super.initState();
-    _list = widget.listOfLists;
+    _list = widget.list;
   }
 
   @override
@@ -75,8 +75,8 @@ class _ListsPageState extends State<ListsPage> {
             FlatButton(
               child: Text("Sim"),
               onPressed: () {
-                widget.listOfLists.removeAt(index);
-                saveData(widget.listOfLists);
+                widget.list.removeAt(index);
+                saveData(widget.list);
                 _getAllLists();
                 Navigator.pop(context);
               },
@@ -89,7 +89,7 @@ class _ListsPageState extends State<ListsPage> {
 
   void _getAllLists() {
     setState(() {
-      _list = widget.listOfLists;
+      _list = widget.list;
     });
   }
 }
