@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
 
 class NewListPage extends StatefulWidget {
-  final List listOfLists;
+  final List list;
 
-  NewListPage({this.listOfLists});
+  NewListPage({this.list});
 
   @override
   _NewListPageState createState() => _NewListPageState();
@@ -149,8 +149,8 @@ class _NewListPageState extends State<NewListPage> {
       Map<String, dynamic> newToDo = Map();
       newToDo["name"] = _listNameController.text;
       newToDo["list"] = _shopping_cart;
-      widget.listOfLists.add(newToDo);
-      saveData(widget.listOfLists);
+      widget.list.add(newToDo);
+      saveData(widget.list);
     });
   }
 
@@ -207,7 +207,8 @@ class _NewListPageState extends State<NewListPage> {
           value: _shopping_cart[index]["checked"],
           onChanged: (_) {
             setState(() {
-              _shopping_cart[index]["checked"] = !_list[index]["checked"];
+              _shopping_cart[index]["checked"] =
+                  !_shopping_cart[index]["checked"];
             });
           },
           title: Container(
