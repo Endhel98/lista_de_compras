@@ -13,6 +13,7 @@ class _HomePageState extends State<HomePage>
   final _productController = TextEditingController();
 
   List _shoppingCart = List();
+  List _newShoppingCart = List();
 
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
@@ -29,16 +30,16 @@ class _HomePageState extends State<HomePage>
     });
   }
 
-  /*void _filterList(String value) {
+  void _filterList(String value) {
     setState(() {
-      _shoppingCart = _shoppingCart
-          .where((aux) => aux["name"]
+      _newShoppingCart = _shoppingCart
+          .where((aux) => aux["product"]
               .toString()
               .toLowerCase()
               .contains(value.toLowerCase()))
           .toList();
     });
-  }*/
+  }
 
   void _addProduct() {
     Map product = {};
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage>
     product["checked"] = false;
     _shoppingCart.add(product);
     saveData(_shoppingCart);
+    _newShoppingCart = _shoppingCart;
   }
 
   @override
@@ -73,7 +75,7 @@ class _HomePageState extends State<HomePage>
                   hintText: "Insira o nome do produto",
                   prefixIcon: Icon(Icons.search),
                 ),
-                //onChanged: _filterList,
+                onChanged: _filterList,
               ),
         actions: <Widget>[
           !_isSearching
@@ -202,7 +204,7 @@ class _HomePageState extends State<HomePage>
                       EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 70),
                   child: ListView.builder(
                     itemBuilder: buildItem,
-                    itemCount: _shoppingCart.length,
+                    itemCount: _newShoppingCart.length,
                   ),
                 ),
               ),
@@ -232,7 +234,7 @@ class _HomePageState extends State<HomePage>
       ),
       onDismissed: (_) {
         setState(() {
-          _lastRemoved = Map.from(_shoppingCart[index]);
+          _lastRemoved = Map.from(_newShoppingCart[index]);
           _lastRemovedPos = index;
           _shoppingCart.removeAt(index);
 
@@ -263,21 +265,17 @@ class _HomePageState extends State<HomePage>
           activeColor: Colors.white,
           dense: true,
           controlAffinity: ListTileControlAffinity.leading,
-          value: _isSearching
-              ? _shoppingCart[index]["checked"]
-              : _shoppingCart[index]["checked"],
+          value: _newShoppingCart[index]["checked"],
           onChanged: (_) {
             setState(() {
-              _shoppingCart[index]["checked"] =
-                  !_shoppingCart[index]["checked"];
+              _newShoppingCart[index]["checked"] =
+                  !_newShoppingCart[index]["checked"];
             });
           },
           title: Container(
             width: 100,
             child: Text(
-              _isSearching
-                  ? _shoppingCart[index]["product"]
-                  : _shoppingCart[index]["product"],
+              _newShoppingCart[index]["product"],
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
