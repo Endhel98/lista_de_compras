@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:lista_de_compras/pages/newLista_page.dart';
 import 'package:path_provider/path_provider.dart';
+
+List<Map> newList = List.from(shoppingCart);
 
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
