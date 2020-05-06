@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage>
                 height: 100,
                 child: Padding(
                   padding:
-                      EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 70),
+                      EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 5),
                   child: ListView.builder(
                     itemBuilder: buildItem,
                     itemCount: _newShoppingCart.length,
