@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
 import 'package:lista_de_compras/pages/lists_page.dart';
@@ -16,6 +15,17 @@ class _HomePageState extends State<HomePage>
   bool _isSearching = false;
   List _list = [];
   TabController controller;
+
+  void _filterList(String value) {
+    setState(() {
+      newList = shoppingCart
+          .where((aux) => aux["name"]
+              .toString()
+              .toLowerCase()
+              .contains(value.toLowerCase()))
+          .toList();
+    });
+  }
 
   @override
   void initState() {
@@ -61,6 +71,7 @@ class _HomePageState extends State<HomePage>
                   prefixIcon: Icon(Icons.search, color: Colors.grey),
                 ),
                 style: TextStyle(fontSize: 18),
+                onChanged: _filterList,
               ),
         actions: <Widget>[
           !_isSearching
