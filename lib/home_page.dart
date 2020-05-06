@@ -129,7 +129,14 @@ class _HomePageState extends State<HomePage>
                     child: Text("Cancelar"),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _shoppingCart.clear();
+                        _newShoppingCart.clear();
+                        saveData(_shoppingCart);
+                      });
+                      Navigator.pop(context);
+                    },
                     child: Text("Sim"),
                   )
                 ],
