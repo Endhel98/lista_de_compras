@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
 
+List<Map> shoppingCart = List();
+
 class NewListPage extends StatefulWidget {
   final List list;
   final bool isSearching;
@@ -12,7 +14,6 @@ class NewListPage extends StatefulWidget {
 }
 
 class _NewListPageState extends State<NewListPage> {
-  List<Map> _shoppingCart = List();
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
 
@@ -130,7 +131,8 @@ class _NewListPageState extends State<NewListPage> {
                     EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 70),
                 child: ListView.builder(
                   itemBuilder: buildItem,
-                  itemCount: _shoppingCart.length,
+                  itemCount:
+                      widget.isSearching ? newList.length : shoppingCart.length,
                 ),
               ),
             ),
@@ -144,14 +146,14 @@ class _NewListPageState extends State<NewListPage> {
     Map product = {};
     product["product"] = _productController.text;
     product["checked"] = false;
-    _shoppingCart.add(product);
+    shoppingCart.add(product);
   }
 
   void _addToDO() {
     setState(() {
       Map<String, dynamic> newToDo = Map();
       newToDo["name"] = _listNameController.text;
-      newToDo["list"] = _shoppingCart;
+      newToDo["list"] = shoppingCart;
       widget.list.add(newToDo);
       saveData(widget.list);
     });
@@ -176,9 +178,9 @@ class _NewListPageState extends State<NewListPage> {
       ),
       onDismissed: (_) {
         setState(() {
-          _lastRemoved = Map.from(_shoppingCart[index]);
+          _lastRemoved = Map.from(shoppingCart[index]);
           _lastRemovedPos = index;
-          _shoppingCart.removeAt(index);
+          shoppingCart.removeAt(index);
 
           final snack = SnackBar(
             content: Text("Produto \"${_lastRemoved['product']}\" removido!"),
@@ -187,7 +189,7 @@ class _NewListPageState extends State<NewListPage> {
               textColor: Colors.pink,
               onPressed: () {
                 setState(() {
-                  _shoppingCart.insert(_lastRemovedPos, _lastRemoved);
+                  shoppingCart.insert(_lastRemovedPos, _lastRemoved);
                 });
               },
             ),
@@ -207,17 +209,20 @@ class _NewListPageState extends State<NewListPage> {
           activeColor: Colors.white,
           dense: true,
           controlAffinity: ListTileControlAffinity.leading,
-          value: _shoppingCart[index]["checked"],
+          value: widget.isSearching
+              ? newList[index]["checked"]
+              : shoppingCart[index]["checked"],
           onChanged: (_) {
             setState(() {
-              _shoppingCart[index]["checked"] =
-                  !_shoppingCart[index]["checked"];
+              newList[index]["checked"] = !newList[index]["checked"];
             });
           },
           title: Container(
             width: 100,
             child: Text(
-              _shoppingCart[index]["product"],
+              widget.isSearching
+                  ? newList[index]["product"]
+                  : shoppingCart[index]["product"],
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
