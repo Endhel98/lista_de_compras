@@ -177,6 +177,11 @@ class _HomePageState extends State<HomePage>
                         color: Colors.white,
                       ),
                       child: TextField(
+                        onTap: () {
+                          setState(() {
+                            _isSearching = !_isSearching;
+                          });
+                        },
                         controller: _productController,
                         decoration: InputDecoration(
                           hintText: "Insira um produto",
