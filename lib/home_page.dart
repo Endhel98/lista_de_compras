@@ -58,10 +58,8 @@ class _HomePageState extends State<HomePage>
                   fillColor: Colors.white,
                   border: InputBorder.none,
                   hintText: "Insira o nome do produto",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  prefixIcon: Icon(Icons.search, color: Colors.grey),
+                  prefixIcon: Icon(Icons.search),
                 ),
-                style: TextStyle(fontSize: 18),
                 onChanged: _filterList,
               ),
         actions: <Widget>[
@@ -91,6 +89,45 @@ class _HomePageState extends State<HomePage>
                   },
                 ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Center(
+                  child: Text(
+                    "Compra realizada!",
+                    style: TextStyle(
+                      color: Colors.pink[400],
+                    ),
+                  ),
+                ),
+                content:
+                    Text("Tem certeza que deseja limpar a Lista de Compras?"),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("Cancelar"),
+                  ),
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text("Sim"),
+                  )
+                ],
+              );
+            },
+          );
+        },
+        backgroundColor: Colors.transparent,
+        child: Icon(
+          Icons.check_circle,
+          size: 50,
+        ),
+        elevation: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
