@@ -125,7 +125,10 @@ class _HomePageState extends State<HomePage>
         child: TabBarView(
           controller: controller,
           children: <Widget>[
-            NewListPage(list: _list),
+            NewListPage(
+              list: _list,
+              isSearching: _isSearching,
+            ),
             ListsPage(
               list: _list,
               //controller: controller,
