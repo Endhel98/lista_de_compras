@@ -66,22 +66,20 @@ class _HomePageState extends State<HomePage>
               ),
         actions: <Widget>[
           !_isSearching
-              ? Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      color: Colors.white,
-                      onPressed: () {
-                        setState(
-                          () {
-                            _isSearching = !_isSearching;
-                          },
-                        );
+              ? IconButton(
+                  padding: EdgeInsets.only(right: 5),
+                  icon: Icon(Icons.search),
+                  color: Colors.white,
+                  onPressed: () {
+                    setState(
+                      () {
+                        _isSearching = !_isSearching;
                       },
-                    ),
-                  ],
+                    );
+                  },
                 )
               : IconButton(
+                  padding: EdgeInsets.only(right: 5),
                   icon: Icon(Icons.cancel),
                   color: Colors.white,
                   onPressed: () {
