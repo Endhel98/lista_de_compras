@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage>
     readData().then((data) {
       setState(() {
         _shoppingCart = json.decode(data);
+        _newShoppingCart = _shoppingCart;
       });
     });
   }
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage>
                       child: TextField(
                         onTap: () {
                           setState(() {
-                            _isSearching = !_isSearching;
+                            _isSearching = false;
                           });
                         },
                         controller: _productController,
