@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
-import 'package:lista_de_compras/pages/newLista_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,28 +11,41 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final _searchController = TextEditingController();
   final _productController = TextEditingController();
-  //final _listNameController = TextEditingController();
+
+  List _shoppingCart = List();
 
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
   bool _isSearching = false;
 
-  void _filterList(String value) {
+  @override
+  void initState() {
+    super.initState();
+
+    readData().then((data) {
+      setState(() {
+        _shoppingCart = json.decode(data);
+      });
+    });
+  }
+
+  /*void _filterList(String value) {
     setState(() {
-      newList = shoppingCart
+      _shoppingCart = _shoppingCart
           .where((aux) => aux["name"]
               .toString()
               .toLowerCase()
               .contains(value.toLowerCase()))
           .toList();
     });
-  }
+  }*/
 
   void _addProduct() {
     Map product = {};
     product["product"] = _productController.text;
     product["checked"] = false;
-    shoppingCart.add(product);
+    _shoppingCart.add(product);
+    saveData(_shoppingCart);
   }
 
   @override
@@ -60,7 +73,7 @@ class _HomePageState extends State<HomePage>
                   hintText: "Insira o nome do produto",
                   prefixIcon: Icon(Icons.search),
                 ),
-                onChanged: _filterList,
+                //onChanged: _filterList,
               ),
         actions: <Widget>[
           !_isSearching
@@ -189,8 +202,7 @@ class _HomePageState extends State<HomePage>
                       EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 70),
                   child: ListView.builder(
                     itemBuilder: buildItem,
-                    itemCount:
-                        _isSearching ? newList.length : shoppingCart.length,
+                    itemCount: _shoppingCart.length,
                   ),
                 ),
               ),
@@ -220,9 +232,9 @@ class _HomePageState extends State<HomePage>
       ),
       onDismissed: (_) {
         setState(() {
-          _lastRemoved = Map.from(shoppingCart[index]);
+          _lastRemoved = Map.from(_shoppingCart[index]);
           _lastRemovedPos = index;
-          shoppingCart.removeAt(index);
+          _shoppingCart.removeAt(index);
 
           final snack = SnackBar(
             content: Text("Produto \"${_lastRemoved['product']}\" removido!"),
@@ -231,7 +243,7 @@ class _HomePageState extends State<HomePage>
               textColor: Colors.pink,
               onPressed: () {
                 setState(() {
-                  shoppingCart.insert(_lastRemovedPos, _lastRemoved);
+                  _shoppingCart.insert(_lastRemovedPos, _lastRemoved);
                 });
               },
             ),
@@ -252,19 +264,20 @@ class _HomePageState extends State<HomePage>
           dense: true,
           controlAffinity: ListTileControlAffinity.leading,
           value: _isSearching
-              ? newList[index]["checked"]
-              : shoppingCart[index]["checked"],
+              ? _shoppingCart[index]["checked"]
+              : _shoppingCart[index]["checked"],
           onChanged: (_) {
             setState(() {
-              newList[index]["checked"] = !newList[index]["checked"];
+              _shoppingCart[index]["checked"] =
+                  !_shoppingCart[index]["checked"];
             });
           },
           title: Container(
             width: 100,
             child: Text(
               _isSearching
-                  ? newList[index]["product"]
-                  : shoppingCart[index]["product"],
+                  ? _shoppingCart[index]["product"]
+                  : _shoppingCart[index]["product"],
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
