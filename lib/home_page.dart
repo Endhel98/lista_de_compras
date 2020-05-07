@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            _filteredShoppingCart.isEmpty
+            _filteredShoppingCart.isEmpty && !_isSearching
                 ? Expanded(
                     child: ListView(
                       padding:
