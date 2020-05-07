@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage>
   final _productController = TextEditingController();
 
   List _shoppingCart = List();
-  List _newShoppingCart = List();
+  List _filteredShoppingCart = List();
 
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
@@ -26,14 +26,14 @@ class _HomePageState extends State<HomePage>
     readData().then((data) {
       setState(() {
         _shoppingCart = json.decode(data);
-        _newShoppingCart = _shoppingCart;
+        _filteredShoppingCart = _shoppingCart;
       });
     });
   }
 
   void _filterList(String value) {
     setState(() {
-      _newShoppingCart = _shoppingCart
+      _filteredShoppingCart = _shoppingCart
           .where((aux) => aux["product"]
               .toString()
               .toLowerCase()
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage>
     product["checked"] = false;
     _shoppingCart.add(product);
     saveData(_shoppingCart);
-    _newShoppingCart = _shoppingCart;
+    _filteredShoppingCart = _shoppingCart;
   }
 
   @override
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage>
                       () {
                         _isSearching = !_isSearching;
                         _searchController.clear();
-                        _newShoppingCart = _shoppingCart;
+                        _filteredShoppingCart = _shoppingCart;
                       },
                     );
                   },
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage>
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _newShoppingCart.isEmpty
+        onPressed: _filteredShoppingCart.isEmpty
             ? null
             : () {
                 showDialog(
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage>
                           onPressed: () {
                             setState(() {
                               _shoppingCart.clear();
-                              _newShoppingCart.clear();
+                              _filteredShoppingCart.clear();
                               saveData(_shoppingCart);
                             });
                             Navigator.pop(context);
@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            _newShoppingCart.isEmpty
+            _filteredShoppingCart.isEmpty
                 ? Expanded(
                     child: ListView(
                       padding:
@@ -244,7 +244,7 @@ class _HomePageState extends State<HomePage>
                             top: 20, left: 60, right: 60, bottom: 5),
                         child: ListView.builder(
                           itemBuilder: buildItem,
-                          itemCount: _newShoppingCart.length,
+                          itemCount: _filteredShoppingCart.length,
                         ),
                       ),
                     ),
@@ -274,10 +274,12 @@ class _HomePageState extends State<HomePage>
       ),
       onDismissed: (_) {
         setState(() {
-          _lastRemoved = Map.from(_newShoppingCart[index]);
+          _lastRemoved = Map.from(_filteredShoppingCart[index]);
           _lastRemovedPos = index;
-          _shoppingCart.removeAt(index);
-          _newShoppingCart = _shoppingCart;
+          int indexProduct =
+              _shoppingCart.indexOf(_filteredShoppingCart[index]);
+          _filteredShoppingCart.removeAt(index);
+          _shoppingCart.removeAt(indexProduct);
 
           final snack = SnackBar(
             content: Text("Produto \"${_lastRemoved['product']}\" removido!"),
@@ -286,8 +288,8 @@ class _HomePageState extends State<HomePage>
               textColor: Colors.pink,
               onPressed: () {
                 setState(() {
-                  _shoppingCart.insert(_lastRemovedPos, _lastRemoved);
-                  _newShoppingCart = _shoppingCart;
+                  _filteredShoppingCart.insert(_lastRemovedPos, _lastRemoved);
+                  _shoppingCart.insert(indexProduct, _lastRemoved);
                 });
               },
             ),
@@ -309,17 +311,17 @@ class _HomePageState extends State<HomePage>
           activeColor: Colors.white,
           dense: true,
           controlAffinity: ListTileControlAffinity.leading,
-          value: _newShoppingCart[index]["checked"],
+          value: _filteredShoppingCart[index]["checked"],
           onChanged: (_) {
             setState(() {
-              _newShoppingCart[index]["checked"] =
-                  !_newShoppingCart[index]["checked"];
+              _filteredShoppingCart[index]["checked"] =
+                  !_filteredShoppingCart[index]["checked"];
             });
           },
           title: Container(
             width: 100,
             child: Text(
-              _newShoppingCart[index]["product"],
+              _filteredShoppingCart[index]["product"],
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
