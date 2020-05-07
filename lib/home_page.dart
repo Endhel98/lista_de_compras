@@ -212,9 +212,10 @@ class _HomePageState extends State<HomePage>
               ),
             ),
             _newShoppingCart.isEmpty
-                ? Padding(
-                    padding: EdgeInsets.only(top: 80),
-                    child: Column(
+                ? Expanded(
+                    child: ListView(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 120, vertical: 80),
                       children: <Widget>[
                         Icon(
                           Icons.shopping_cart,
