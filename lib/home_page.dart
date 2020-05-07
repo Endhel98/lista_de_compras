@@ -100,6 +100,8 @@ class _HomePageState extends State<HomePage>
                     setState(
                       () {
                         _isSearching = !_isSearching;
+                        _searchController.clear();
+                        _newShoppingCart = _shoppingCart;
                       },
                     );
                   },
