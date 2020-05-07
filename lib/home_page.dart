@@ -198,18 +198,19 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   IconButton(
-                    icon: Icon(
-                      Icons.add_circle,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _addProduct();
-                        _productController.text = "";
-                      });
-                    },
-                  ),
+                      icon: Icon(
+                        Icons.add_circle,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          if (_productController.text != "") {
+                            _addProduct();
+                            _productController.text = "";
+                          }
+                        });
+                      }),
                 ],
               ),
             ),
