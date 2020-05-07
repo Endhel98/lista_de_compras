@@ -109,44 +109,46 @@ class _HomePageState extends State<HomePage>
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Center(
-                  child: Text(
-                    "Compra realizada!",
-                    style: TextStyle(
-                      color: Colors.pink[400],
-                    ),
-                  ),
-                ),
-                content:
-                    Text("Tem certeza que deseja limpar a Lista de Compras?"),
-                actions: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("Cancelar"),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        _shoppingCart.clear();
-                        _newShoppingCart.clear();
-                        saveData(_shoppingCart);
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: Text("Sim"),
-                  )
-                ],
-              );
-            },
-          );
-        },
+        onPressed: _newShoppingCart.isEmpty
+            ? null
+            : () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Center(
+                        child: Text(
+                          "Compra realizada!",
+                          style: TextStyle(
+                            color: Colors.pink[400],
+                          ),
+                        ),
+                      ),
+                      content: Text(
+                          "Tem certeza que deseja limpar a Lista de Compras?"),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Cancelar"),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              _shoppingCart.clear();
+                              _newShoppingCart.clear();
+                              saveData(_shoppingCart);
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Text("Sim"),
+                        )
+                      ],
+                    );
+                  },
+                );
+              },
         backgroundColor: Colors.transparent,
         child: Icon(
           Icons.check_circle,
