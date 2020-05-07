@@ -68,7 +68,6 @@ class _HomePageState extends State<HomePage>
               )
             : TextField(
                 controller: _searchController,
-                autofocus: true,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -97,6 +96,7 @@ class _HomePageState extends State<HomePage>
                   icon: Icon(Icons.cancel),
                   color: Colors.white,
                   onPressed: () {
+                    FocusScope.of(context).requestFocus(new FocusNode());
                     setState(
                       () {
                         _isSearching = !_isSearching;
