@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage>
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
   bool _isSearching = false;
-  bool _delete = false;
 
   @override
   void initState() {
@@ -212,19 +211,40 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            Expanded(
-              child: SizedBox(
-                height: 100,
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 5),
-                  child: ListView.builder(
-                    itemBuilder: buildItem,
-                    itemCount: _newShoppingCart.length,
+            _newShoppingCart.isEmpty
+                ? Padding(
+                    padding: EdgeInsets.only(top: 80),
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.shopping_cart,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          "Carrinho vazio :(",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Expanded(
+                    child: SizedBox(
+                      height: 100,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: 20, left: 60, right: 60, bottom: 5),
+                        child: ListView.builder(
+                          itemBuilder: buildItem,
+                          itemCount: _newShoppingCart.length,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
           ],
         ),
       ),
@@ -252,7 +272,8 @@ class _HomePageState extends State<HomePage>
         setState(() {
           _lastRemoved = Map.from(_newShoppingCart[index]);
           _lastRemovedPos = index;
-          _newShoppingCart.removeAt(index);
+          _shoppingCart.removeAt(index);
+          _newShoppingCart = _shoppingCart;
 
           final snack = SnackBar(
             content: Text("Produto \"${_lastRemoved['product']}\" removido!"),
@@ -261,19 +282,15 @@ class _HomePageState extends State<HomePage>
               textColor: Colors.pink,
               onPressed: () {
                 setState(() {
-                  _newShoppingCart.insert(_lastRemovedPos, _lastRemoved);
-                  _delete = true;
+                  _shoppingCart.insert(_lastRemovedPos, _lastRemoved);
+                  _newShoppingCart = _shoppingCart;
                 });
               },
             ),
             duration: Duration(seconds: 2),
           );
 
-          if (!_delete) {
-            _shoppingCart.removeAt(index);
-            saveData(_shoppingCart);
-            _delete = false;
-          }
+          saveData(_shoppingCart);
 
           Scaffold.of(context).removeCurrentSnackBar();
           Scaffold.of(context).showSnackBar(snack);
