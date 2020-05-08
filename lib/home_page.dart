@@ -83,13 +83,15 @@ class _HomePageState extends State<HomePage>
                   padding: EdgeInsets.only(right: 5),
                   icon: Icon(Icons.search),
                   color: Colors.white,
-                  onPressed: () {
-                    setState(
-                      () {
-                        _isSearching = !_isSearching;
-                      },
-                    );
-                  },
+                  onPressed: _filteredShoppingCart.isNotEmpty
+                      ? () {
+                          setState(
+                            () {
+                              _isSearching = !_isSearching;
+                            },
+                          );
+                        }
+                      : null,
                 )
               : IconButton(
                   padding: EdgeInsets.only(right: 5),
