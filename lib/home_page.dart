@@ -53,7 +53,40 @@ class _HomePageState extends State<HomePage>
 
   bool _checksRepeatedProduct() {
     for (Map aux in _shoppingCart)
-      if (aux["product"] == _productController.text) return true;
+      if (aux["product"] == _productController.text) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Center(
+                child: Text(
+                  "OPS!",
+                  style: TextStyle(
+                    color: Colors.pink[400],
+                  ),
+                ),
+              ),
+              content: Text(
+                "Você já inseriu este produto!",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "OK",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+        _productController.clear();
+        return true;
+      }
     return false;
   }
 
