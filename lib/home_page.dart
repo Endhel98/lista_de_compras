@@ -51,6 +51,12 @@ class _HomePageState extends State<HomePage>
     _filteredShoppingCart = _shoppingCart;
   }
 
+  bool _checksRepeatedProduct() {
+    for (Map aux in _shoppingCart)
+      if (aux["product"] == _productController.text) return true;
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,7 +213,8 @@ class _HomePageState extends State<HomePage>
                       ),
                       onPressed: () {
                         setState(() {
-                          if (_productController.text != "") {
+                          if (_productController.text != "" &&
+                              !_checksRepeatedProduct()) {
                             _addProduct();
                             _productController.text = "";
                           }
