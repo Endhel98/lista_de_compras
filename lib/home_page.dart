@@ -278,10 +278,7 @@ class _HomePageState extends State<HomePage>
         setState(() {
           _lastRemoved = Map.from(_filteredShoppingCart[index]);
           _lastRemovedPos = index;
-          int indexProduct =
-              _shoppingCart.indexOf(_filteredShoppingCart[index]);
           _filteredShoppingCart.removeAt(index);
-          _shoppingCart.removeAt(indexProduct);
 
           final snack = SnackBar(
             content: Text("Produto \"${_lastRemoved['product']}\" removido!"),
@@ -291,14 +288,11 @@ class _HomePageState extends State<HomePage>
               onPressed: () {
                 setState(() {
                   _filteredShoppingCart.insert(_lastRemovedPos, _lastRemoved);
-                  _shoppingCart.insert(indexProduct, _lastRemoved);
                 });
               },
             ),
             duration: Duration(seconds: 2),
           );
-
-          saveData(_shoppingCart);
 
           Scaffold.of(context).removeCurrentSnackBar();
           Scaffold.of(context).showSnackBar(snack);
