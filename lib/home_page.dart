@@ -49,7 +49,6 @@ class _HomePageState extends State<HomePage>
               ),
               content: Text(
                 "Você já inseriu este produto!",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               actions: <Widget>[
                 FlatButton(
@@ -58,7 +57,6 @@ class _HomePageState extends State<HomePage>
                   },
                   child: Text(
                     "OK",
-                    style: TextStyle(fontSize: 18),
                   ),
                 ),
               ],
@@ -77,13 +75,23 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         backgroundColor: Colors.pink[400],
         elevation: 0,
-        title: Text(
-          "Lista de Compras",
-          style: TextStyle(
-            fontSize: 23,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Lista de Compras",
+              style: TextStyle(
+                fontSize: 23,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            Image.asset(
+              "icon/icon.png",
+              height: 60,
+            )
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -215,7 +223,7 @@ class _HomePageState extends State<HomePage>
                       height: 100,
                       child: Padding(
                         padding: EdgeInsets.only(
-                            top: 20, left: 30, right: 60, bottom: 5),
+                            top: 20, left: 20, right: 60, bottom: 5),
                         child: ListView.builder(
                           itemBuilder: buildItem,
                           itemCount: _shoppingCart.length,
@@ -255,7 +263,12 @@ class _HomePageState extends State<HomePage>
         secondary: IconButton(
           icon: Icon(Icons.delete),
           color: Colors.white,
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              _shoppingCart.removeAt(index);
+              saveData(_shoppingCart);
+            });
+          },
         ),
       ),
     );
