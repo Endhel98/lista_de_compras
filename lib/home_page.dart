@@ -243,8 +243,8 @@ class _HomePageState extends State<HomePage>
         unselectedWidgetColor: Colors.white,
       ),
       child: CheckboxListTile(
-        checkColor: Colors.lightGreen,
-        activeColor: Colors.white,
+        activeColor: Colors.lightGreen,
+        checkColor: Colors.white,
         dense: true,
         controlAffinity: ListTileControlAffinity.leading,
         value: _shoppingCart[index]["checked"],
