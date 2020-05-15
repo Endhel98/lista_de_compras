@@ -13,6 +13,8 @@ class _HomePageState extends State<HomePage>
 
   List _shoppingCart = List();
 
+  final _focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -134,6 +136,7 @@ class _HomePageState extends State<HomePage>
                     );
                   },
                 );
+                _focusNode.unfocus();
               },
         backgroundColor: Colors.transparent,
         child: Icon(
@@ -169,6 +172,7 @@ class _HomePageState extends State<HomePage>
                       ),
                       child: TextField(
                         controller: _productController,
+                        focusNode: _focusNode,
                         decoration: InputDecoration(
                           hintText: "Insira um produto",
                           hintStyle: TextStyle(),
@@ -299,6 +303,7 @@ class _HomePageState extends State<HomePage>
                 );
               },
             );
+            _focusNode.unfocus();
           },
         ),
       ),
