@@ -9,15 +9,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  final _searchController = TextEditingController();
   final _productController = TextEditingController();
 
   List _shoppingCart = List();
-  List _filteredShoppingCart = List();
-
-  //Map<String, dynamic> _lastRemoved;
-  //int _lastRemovedPos;
-  bool _isSearching = false;
 
   @override
   void initState() {
@@ -26,29 +20,16 @@ class _HomePageState extends State<HomePage>
     readData().then((data) {
       setState(() {
         _shoppingCart = json.decode(data);
-        _filteredShoppingCart = _shoppingCart;
       });
     });
   }
 
-  void _filterList(String value) {
-    setState(() {
-      _filteredShoppingCart = _shoppingCart
-          .where((aux) => aux["product"]
-              .toString()
-              .toLowerCase()
-              .contains(value.toLowerCase()))
-          .toList();
-    });
-  }
-
   void _addProduct() {
-    Map product = {};
+    Map<String, dynamic> product = {};
     product["product"] = _productController.text;
     product["checked"] = false;
     _shoppingCart.add(product);
     saveData(_shoppingCart);
-    _filteredShoppingCart = _shoppingCart;
   }
 
   bool _checksRepeatedProduct() {
@@ -96,61 +77,17 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         backgroundColor: Colors.pink[400],
         elevation: 0,
-        title: !_isSearching
-            ? Text(
-                "Lista de Compras",
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              )
-            : TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: InputBorder.none,
-                  hintText: "Insira o nome do produto",
-                  prefixIcon: Icon(Icons.search),
-                ),
-                onChanged: _filterList,
-              ),
-        actions: <Widget>[
-          !_isSearching
-              ? IconButton(
-                  padding: EdgeInsets.only(right: 5),
-                  icon: Icon(Icons.search),
-                  color: Colors.white,
-                  onPressed: _filteredShoppingCart.isNotEmpty
-                      ? () {
-                          setState(
-                            () {
-                              _isSearching = !_isSearching;
-                            },
-                          );
-                        }
-                      : null,
-                )
-              : IconButton(
-                  padding: EdgeInsets.only(right: 5),
-                  icon: Icon(Icons.cancel),
-                  color: Colors.white,
-                  onPressed: () {
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                    setState(
-                      () {
-                        _isSearching = !_isSearching;
-                        _searchController.clear();
-                        _filteredShoppingCart = _shoppingCart;
-                      },
-                    );
-                  },
-                ),
-        ],
+        title: Text(
+          "Lista de Compras",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _filteredShoppingCart.isEmpty
+        onPressed: _shoppingCart.isEmpty
             ? null
             : () {
                 showDialog(
@@ -178,7 +115,7 @@ class _HomePageState extends State<HomePage>
                           onPressed: () {
                             setState(() {
                               _shoppingCart.clear();
-                              _filteredShoppingCart.clear();
+
                               saveData(_shoppingCart);
                             });
                             Navigator.pop(context);
@@ -223,11 +160,6 @@ class _HomePageState extends State<HomePage>
                         color: Colors.white,
                       ),
                       child: TextField(
-                        onTap: () {
-                          setState(() {
-                            _isSearching = false;
-                          });
-                        },
                         controller: _productController,
                         decoration: InputDecoration(
                           hintText: "Insira um produto",
@@ -256,7 +188,7 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            _filteredShoppingCart.isEmpty && !_isSearching
+            _shoppingCart.isEmpty
                 ? Expanded(
                     child: ListView(
                       padding:
@@ -286,7 +218,7 @@ class _HomePageState extends State<HomePage>
                             top: 20, left: 30, right: 60, bottom: 5),
                         child: ListView.builder(
                           itemBuilder: buildItem,
-                          itemCount: _filteredShoppingCart.length,
+                          itemCount: _shoppingCart.length,
                         ),
                       ),
                     ),
@@ -297,7 +229,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget buildItem(context, index) {
+  Widget buildItem(context, int index) {
     return Theme(
       data: Theme.of(context).copyWith(
         unselectedWidgetColor: Colors.white,
@@ -307,17 +239,16 @@ class _HomePageState extends State<HomePage>
         activeColor: Colors.white,
         dense: true,
         controlAffinity: ListTileControlAffinity.leading,
-        value: _filteredShoppingCart[index]["checked"],
+        value: _shoppingCart[index]["checked"],
         onChanged: (_) {
           setState(() {
-            _filteredShoppingCart[index]["checked"] =
-                !_filteredShoppingCart[index]["checked"];
+            _shoppingCart[index]["checked"] = !_shoppingCart[index]["checked"];
           });
         },
         title: Container(
           width: 100,
           child: Text(
-            _filteredShoppingCart[index]["product"],
+            _shoppingCart[index]["product"],
             style: TextStyle(fontSize: 18, color: Colors.white),
           ),
         ),
