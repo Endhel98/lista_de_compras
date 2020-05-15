@@ -264,10 +264,41 @@ class _HomePageState extends State<HomePage>
           icon: Icon(Icons.delete),
           color: Colors.white,
           onPressed: () {
-            setState(() {
-              _shoppingCart.removeAt(index);
-              saveData(_shoppingCart);
-            });
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Center(
+                    child: Text(
+                      "Remover Produto!",
+                      style: TextStyle(
+                        color: Colors.pink[400],
+                      ),
+                    ),
+                  ),
+                  content: Text(
+                      "Tem certeza que deseja remover o produto \"${_shoppingCart[index]["product"]}\""),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Cancelar"),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          _shoppingCart.removeAt(index);
+                          saveData(_shoppingCart);
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Text("Sim"),
+                    )
+                  ],
+                );
+              },
+            );
           },
         ),
       ),
