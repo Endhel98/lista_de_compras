@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   content: Text(
-                      "Tem certeza que deseja remover o produto \"${_shoppingCart[index]["product"]}\""),
+                      "Tem certeza que deseja remover o produto \"${_shoppingCart[index]["product"]}\"?"),
                   actions: <Widget>[
                     FlatButton(
                       onPressed: () {
