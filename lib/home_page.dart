@@ -15,8 +15,8 @@ class _HomePageState extends State<HomePage>
   List _shoppingCart = List();
   List _filteredShoppingCart = List();
 
-  Map<String, dynamic> _lastRemoved;
-  int _lastRemovedPos;
+  //Map<String, dynamic> _lastRemoved;
+  //int _lastRemovedPos;
   bool _isSearching = false;
 
   @override
@@ -283,7 +283,7 @@ class _HomePageState extends State<HomePage>
                       height: 100,
                       child: Padding(
                         padding: EdgeInsets.only(
-                            top: 20, left: 60, right: 60, bottom: 5),
+                            top: 20, left: 30, right: 60, bottom: 5),
                         child: ListView.builder(
                           itemBuilder: buildItem,
                           itemCount: _filteredShoppingCart.length,
@@ -298,69 +298,33 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget buildItem(context, index) {
-    return Dismissible(
-      key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
-      background: Container(
-        color: Colors.transparent,
-        child: Align(
-          alignment: Alignment(-0.9, 0.0),
-          child: Icon(Icons.delete, color: Colors.white),
-        ),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        unselectedWidgetColor: Colors.white,
       ),
-      secondaryBackground: Container(
-        color: Colors.transparent,
-        child: Align(
-          alignment: Alignment(0.9, 0.0),
-          child: Icon(Icons.delete, color: Colors.white),
-        ),
-      ),
-      onDismissed: (_) {
-        setState(() {
-          _lastRemoved = Map.from(_filteredShoppingCart[index]);
-          _lastRemovedPos = index;
-          _filteredShoppingCart.removeAt(index);
-
-          final snack = SnackBar(
-            content: Text("Produto \"${_lastRemoved['product']}\" removido!"),
-            action: SnackBarAction(
-              label: "Desfazer",
-              textColor: Colors.pink,
-              onPressed: () {
-                setState(() {
-                  _filteredShoppingCart.insert(_lastRemovedPos, _lastRemoved);
-                });
-              },
-            ),
-            duration: Duration(seconds: 2),
-          );
-
-          Scaffold.of(context).removeCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(snack);
-        });
-      },
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          unselectedWidgetColor: Colors.white,
-        ),
-        child: CheckboxListTile(
-          checkColor: Colors.lightGreen,
-          activeColor: Colors.white,
-          dense: true,
-          controlAffinity: ListTileControlAffinity.leading,
-          value: _filteredShoppingCart[index]["checked"],
-          onChanged: (_) {
-            setState(() {
-              _filteredShoppingCart[index]["checked"] =
-                  !_filteredShoppingCart[index]["checked"];
-            });
-          },
-          title: Container(
-            width: 100,
-            child: Text(
-              _filteredShoppingCart[index]["product"],
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            ),
+      child: CheckboxListTile(
+        checkColor: Colors.lightGreen,
+        activeColor: Colors.white,
+        dense: true,
+        controlAffinity: ListTileControlAffinity.leading,
+        value: _filteredShoppingCart[index]["checked"],
+        onChanged: (_) {
+          setState(() {
+            _filteredShoppingCart[index]["checked"] =
+                !_filteredShoppingCart[index]["checked"];
+          });
+        },
+        title: Container(
+          width: 100,
+          child: Text(
+            _filteredShoppingCart[index]["product"],
+            style: TextStyle(fontSize: 18, color: Colors.white),
           ),
+        ),
+        secondary: IconButton(
+          icon: Icon(Icons.delete),
+          color: Colors.white,
+          onPressed: () {},
         ),
       ),
     );
