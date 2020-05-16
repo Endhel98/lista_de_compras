@@ -3,5 +3,5 @@
  
  ## Screenshots
  
- <img src=”Screenshot_1.jpg” height="150" width="150">
+ <img src="Screenshot_1.jpg" height="320" width="250"> <img src="Screenshot_2.jpg" height="320" width="250">
 
