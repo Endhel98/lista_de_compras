@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage>
                 ? Expanded(
                     child: ListView(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 120, vertical: 80),
+                          EdgeInsets.symmetric(horizontal: 140, vertical: 80),
                       children: <Widget>[
                         Icon(
                           Icons.shopping_cart,
