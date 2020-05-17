@@ -203,8 +203,7 @@ class _HomePageState extends State<HomePage>
             _shoppingCart.isEmpty
                 ? Expanded(
                     child: ListView(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 140, vertical: 80),
+                      padding: EdgeInsets.all(115),
                       children: <Widget>[
                         Icon(
                           Icons.shopping_cart,
