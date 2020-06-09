@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
+import 'package:lista_de_compras/widgets/emptyList.dart';
+import 'package:lista_de_compras/widgets/inputField.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,11 +22,20 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
+    changeStatusBar();
+
     readData().then((data) {
       setState(() {
         _shoppingCart = json.decode(data);
       });
     });
+  }
+
+  void changeStatusBar() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.pink[300],
+    ));
   }
 
   void _addProduct() {
@@ -74,8 +86,9 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.pink[400],
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: Row(
@@ -89,10 +102,14 @@ class _HomePageState extends State<HomePage>
                 color: Colors.white,
               ),
             ),
-            Image.asset(
-              "icon/icon.png",
-              height: 60,
-            )
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Icon(
+                Icons.add_shopping_cart,
+                color: Colors.white,
+                size: 35,
+              ),
+            ),
           ],
         ),
       ),
@@ -138,95 +155,57 @@ class _HomePageState extends State<HomePage>
                 );
                 _focusNode.unfocus();
               },
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         child: Icon(
-          Icons.check_circle,
-          size: 50,
+          Icons.delete,
+          size: 30,
+          color: Colors.pink[300],
         ),
-        elevation: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topRight,
+            begin: Alignment.topCenter,
             colors: [
-              Colors.pink[400],
+              Colors.pink[600],
+              Colors.pink[500],
               Colors.pink[300],
-              Colors.pink[200],
             ],
           ),
         ),
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+              padding: EdgeInsets.only(top: 150, left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(32),
-                        color: Colors.white,
-                      ),
-                      child: TextField(
-                        controller: _productController,
-                        focusNode: _focusNode,
-                        decoration: InputDecoration(
-                          hintText: "Insira um produto",
-                          hintStyle: TextStyle(),
-                          border: InputBorder.none,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                  InputField(controller: _productController, focus: _focusNode),
                   IconButton(
-                      icon: Icon(
-                        Icons.add_circle,
-                        color: Colors.white,
-                        size: 35,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          if (_productController.text != "" &&
-                              !_checksRepeatedProduct()) {
-                            _addProduct();
-                            _productController.text = "";
-                          }
-                        });
-                      }),
+                    icon: Icon(
+                      Icons.add_circle,
+                      color: Colors.white,
+                      size: 35,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (_productController.text != "" &&
+                            !_checksRepeatedProduct()) {
+                          _addProduct();
+                          _productController.text = "";
+                        }
+                      });
+                    },
+                  ),
                 ],
               ),
             ),
             _shoppingCart.isEmpty
-                ? Expanded(
-                    child: ListView(
-                      padding: EdgeInsets.all(115),
-                      children: <Widget>[
-                        Icon(
-                          Icons.shopping_cart,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "Carrinho vazio :(",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                ? EmptyList()
                 : Expanded(
                     child: SizedBox(
-                      height: 100,
                       child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 20, left: 20, right: 60, bottom: 5),
+                        padding: EdgeInsets.symmetric(horizontal: 50),
                         child: ListView.builder(
                           itemBuilder: buildItem,
                           itemCount: _shoppingCart.length,
