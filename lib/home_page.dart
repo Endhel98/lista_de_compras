@@ -4,6 +4,7 @@ import 'package:lista_de_compras/functionsJson/functions.dart';
 import 'package:lista_de_compras/widgets/emptyList.dart';
 import 'package:lista_de_compras/widgets/inputField.dart';
 import 'package:flutter/services.dart';
+import 'package:lista_de_compras/widgets/productName.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,9 +14,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final _productController = TextEditingController();
-
   List _shoppingCart = List();
-
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _focusNode = FocusNode();
 
   @override
@@ -46,41 +46,8 @@ class _HomePageState extends State<HomePage>
     saveData(_shoppingCart);
   }
 
-  bool _checksRepeatedProduct() {
-    for (Map aux in _shoppingCart)
-      if (aux["product"] == _productController.text) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Center(
-                child: Text(
-                  "OPS!",
-                  style: TextStyle(
-                    color: Colors.pink[400],
-                  ),
-                ),
-              ),
-              content: Text(
-                "Você já inseriu este produto!",
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "OK",
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-        _productController.clear();
-        return true;
-      }
-    return false;
+  void clealField() {
+    _productController.clear();
   }
 
   @override
@@ -90,77 +57,63 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Lista de Compras",
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Icon(
-                Icons.add_shopping_cart,
-                color: Colors.white,
-                size: 35,
-              ),
-            ),
-          ],
+        title: Text(
+          "Lista de Compras",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _shoppingCart.isEmpty
-            ? null
-            : () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Center(
-                        child: Text(
-                          "Compra realizada!",
-                          style: TextStyle(
-                            color: Colors.pink[400],
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.remove_shopping_cart,
+              color: Colors.white,
+            ),
+            onPressed: _shoppingCart.isEmpty
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Center(
+                            child: Text(
+                              "Compra realizada!",
+                              style: TextStyle(
+                                color: Colors.pink[400],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      content: Text(
-                          "Tem certeza que deseja limpar a Lista de Compras?"),
-                      actions: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text("Cancelar"),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            setState(() {
-                              _shoppingCart.clear();
+                          content: Text(
+                              "Tem certeza que deseja limpar a Lista de Compras?"),
+                          actions: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Cancelar"),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                setState(() {
+                                  _shoppingCart.clear();
 
-                              saveData(_shoppingCart);
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Text("Sim"),
-                        )
-                      ],
+                                  saveData(_shoppingCart);
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Text("Sim"),
+                            )
+                          ],
+                        );
+                      },
                     );
+                    _focusNode.unfocus();
                   },
-                );
-                _focusNode.unfocus();
-              },
-        backgroundColor: Colors.white,
-        child: Icon(
-          Icons.delete,
-          size: 30,
-          color: Colors.pink[300],
-        ),
+          )
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -173,47 +126,42 @@ class _HomePageState extends State<HomePage>
             ],
           ),
         ),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 150, left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  InputField(controller: _productController, focus: _focusNode),
-                  IconButton(
-                    icon: Icon(
-                      Icons.add_circle,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                    onPressed: () {
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 150),
+                child: InputField(
+                  controller: _productController,
+                  focus: _focusNode,
+                  shoppingCart: _shoppingCart,
+                  function: () {
+                    if (_formKey.currentState.validate())
                       setState(() {
-                        if (_productController.text != "" &&
-                            !_checksRepeatedProduct()) {
-                          _addProduct();
-                          _productController.text = "";
-                        }
+                        _addProduct();
+                        WidgetsBinding.instance.addPostFrameCallback(
+                            (_) => _productController.clear());
                       });
-                    },
-                  ),
-                ],
+                  },
+                ),
               ),
-            ),
-            _shoppingCart.isEmpty
-                ? EmptyList()
-                : Expanded(
-                    child: SizedBox(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 50),
+              _shoppingCart.isEmpty
+                  ? EmptyList()
+                  : Expanded(
+                      child: SizedBox(
+                        height: 100,
                         child: ListView.builder(
+                          padding:
+                              EdgeInsets.only(top: 20, left: 50, right: 50),
                           itemBuilder: buildItem,
                           itemCount: _shoppingCart.length,
                         ),
                       ),
                     ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -235,15 +183,9 @@ class _HomePageState extends State<HomePage>
             _shoppingCart[index]["checked"] = !_shoppingCart[index]["checked"];
           });
         },
-        title: Container(
-          width: 100,
-          child: Text(
-            _shoppingCart[index]["product"],
-            style: TextStyle(fontSize: 18, color: Colors.white),
-          ),
-        ),
+        title: ProductName(product: _shoppingCart[index]["product"]),
         secondary: IconButton(
-          icon: Icon(Icons.delete),
+          icon: Icon(Icons.remove_circle_outline),
           color: Colors.white,
           onPressed: () {
             showDialog(
