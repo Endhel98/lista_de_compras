@@ -46,10 +46,6 @@ class _HomePageState extends State<HomePage>
     saveData(_shoppingCart);
   }
 
-  void clealField() {
-    _productController.clear();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +95,6 @@ class _HomePageState extends State<HomePage>
                               onPressed: () {
                                 setState(() {
                                   _shoppingCart.clear();
-
                                   saveData(_shoppingCart);
                                 });
                                 Navigator.pop(context);
@@ -181,6 +176,7 @@ class _HomePageState extends State<HomePage>
         onChanged: (_) {
           setState(() {
             _shoppingCart[index]["checked"] = !_shoppingCart[index]["checked"];
+            saveData(_shoppingCart);
           });
         },
         title: ProductName(product: _shoppingCart[index]["product"]),
