@@ -114,6 +114,7 @@ class _HomePageState extends State<HomePage>
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
             colors: [
               Colors.pink[600],
               Colors.pink[500],
@@ -145,14 +146,10 @@ class _HomePageState extends State<HomePage>
               _shoppingCart.isEmpty
                   ? EmptyList()
                   : Expanded(
-                      child: SizedBox(
-                        height: 100,
-                        child: ListView.builder(
-                          padding:
-                              EdgeInsets.only(top: 20, left: 50, right: 50),
-                          itemBuilder: buildItem,
-                          itemCount: _shoppingCart.length,
-                        ),
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(top: 20, left: 50, right: 50),
+                        itemBuilder: buildItem,
+                        itemCount: _shoppingCart.length,
                       ),
                     ),
             ],
@@ -197,7 +194,8 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   content: Text(
-                      "Tem certeza que deseja remover o produto \"${_shoppingCart[index]["product"]}\"?"),
+                    "Tem certeza que deseja remover o produto \"${_shoppingCart[index]["product"]}\"?",
+                  ),
                   actions: <Widget>[
                     FlatButton(
                       onPressed: () {
