@@ -150,6 +150,16 @@ class _HomePageState extends State<HomePage>
                       itemCount: _shoppingCart.length,
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(
+                      "Total: R\$ 0.00",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                      ),
+                    ),
+                  )
                 ],
               ),
       ),
