@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
 import 'package:lista_de_compras/widgets/emptyList.dart';
-import 'package:lista_de_compras/widgets/inputField.dart';
 import 'package:flutter/services.dart';
 import 'package:lista_de_compras/widgets/productName.dart';
 
@@ -14,10 +13,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  final _productController = TextEditingController();
+  //final _productController = TextEditingController();
   //MoneyMaskedTextController _priceController = MoneyMaskedTextController();
   List _shoppingCart = List();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _focusNode = FocusNode();
 
   @override
@@ -40,20 +39,19 @@ class _HomePageState extends State<HomePage>
     ));
   }
 
-  void _addProduct() {
-    Map<String, dynamic> product = {};
-    product["product"] = _productController.text;
-    product["checked"] = false;
-    _shoppingCart.add(product);
-    saveData(_shoppingCart);
-  }
+  // void _addProduct() {
+  //   Map<String, dynamic> product = {};
+  //   product["product"] = _productController.text;
+  //   product["checked"] = false;
+  //   _shoppingCart.add(product);
+  //   saveData(_shoppingCart);
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.pink[600],
         elevation: 0,
         title: Text(
           "Lista de Compras",
@@ -124,39 +122,36 @@ class _HomePageState extends State<HomePage>
             ],
           ),
         ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 150),
-                child: InputField(
-                  controller: _productController,
-                  focus: _focusNode,
-                  shoppingCart: _shoppingCart,
-                  function: () {
-                    if (_formKey.currentState.validate())
-                      setState(() {
-                        _addProduct();
-                        WidgetsBinding.instance.addPostFrameCallback(
-                            (_) => _productController.clear());
-                      });
-                  },
-                ),
-              ),
-              _shoppingCart.isEmpty
-                  ? EmptyList()
-                  : Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                        itemBuilder: buildItem,
-                        itemCount: _shoppingCart.length,
-                      ),
+        child: _shoppingCart.isEmpty
+            ? EmptyList()
+            : Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 30),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(32),
+                      color: Colors.pink[300],
                     ),
-            ],
-          ),
-        ),
+                    child: FlatButton(
+                      child: Text(
+                        "Adicionar Produto",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding:
+                          EdgeInsets.only(bottom: 100, left: 20, right: 20),
+                      itemBuilder: buildItem,
+                      itemCount: _shoppingCart.length,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
