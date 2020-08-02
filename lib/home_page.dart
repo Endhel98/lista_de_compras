@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+//import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
 import 'package:lista_de_compras/widgets/emptyList.dart';
 import 'package:lista_de_compras/widgets/inputField.dart';
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final _productController = TextEditingController();
+  //MoneyMaskedTextController _priceController = MoneyMaskedTextController();
   List _shoppingCart = List();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _focusNode = FocusNode();
@@ -147,7 +149,7 @@ class _HomePageState extends State<HomePage>
                   ? EmptyList()
                   : Expanded(
                       child: ListView.builder(
-                        padding: EdgeInsets.only(top: 20, left: 50, right: 50),
+                        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
                         itemBuilder: buildItem,
                         itemCount: _shoppingCart.length,
                       ),
@@ -176,49 +178,68 @@ class _HomePageState extends State<HomePage>
             saveData(_shoppingCart);
           });
         },
-        title: ProductName(product: _shoppingCart[index]["product"]),
-        secondary: IconButton(
-          icon: Icon(Icons.remove_circle_outline),
-          color: Colors.white,
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Center(
-                    child: Text(
-                      "Remover Produto!",
-                      style: TextStyle(
-                        color: Colors.pink[400],
+        title: SizedBox(
+            width: 80,
+            child: ProductName(product: _shoppingCart[index]["product"])),
+        subtitle: Text(
+          "R\$ 0.00",
+          style: TextStyle(
+            color: Colors.white70,
+            fontSize: 16,
+          ),
+        ),
+        secondary: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.edit),
+              color: Colors.white,
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.remove_circle_outline),
+              color: Colors.white,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Center(
+                        child: Text(
+                          "Remover Produto!",
+                          style: TextStyle(
+                            color: Colors.pink[400],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  content: Text(
-                    "Tem certeza que deseja remover o produto \"${_shoppingCart[index]["product"]}\"?",
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text("Cancelar"),
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        setState(() {
-                          _shoppingCart.removeAt(index);
-                          saveData(_shoppingCart);
-                        });
-                        Navigator.pop(context);
-                      },
-                      child: Text("Sim"),
-                    )
-                  ],
+                      content: Text(
+                        "Tem certeza que deseja remover o produto \"${_shoppingCart[index]["product"]}\"?",
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Cancelar"),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              _shoppingCart.removeAt(index);
+                              saveData(_shoppingCart);
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Text("Sim"),
+                        )
+                      ],
+                    );
+                  },
                 );
+                _focusNode.unfocus();
               },
-            );
-            _focusNode.unfocus();
-          },
+            ),
+          ],
         ),
       ),
     );
