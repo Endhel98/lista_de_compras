@@ -84,29 +84,32 @@ class AddPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20.0),
-              Row(
-                children: <Widget>[
-                  Text(
-                    "Preço: R\$",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _priceController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                      ),
-                      keyboardType: TextInputType.number,
+              TextFormField(
+                controller: _priceController,
+                validator: (_) {
+                  if (_priceController.numberValue == 0)
+                    return "Insira o preço do produto!";
+                  return null;
+                },
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  errorStyle: TextStyle(color: Colors.white),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(top: 13.0),
+                    child: Text(
+                      "Preço: R\$",
                       style: TextStyle(
+                        fontSize: 18,
                         color: Colors.white,
-                        fontSize: 22,
                       ),
                     ),
                   ),
-                ],
+                ),
+                keyboardType: TextInputType.number,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                ),
               ),
               SizedBox(height: 35.0),
               Container(

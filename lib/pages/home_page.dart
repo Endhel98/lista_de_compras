@@ -119,49 +119,53 @@ class _HomePageState extends State<HomePage>
             ],
           ),
         ),
-        child: _shoppingCart.isEmpty
-            ? EmptyList()
-            : Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 30),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(32),
-                      color: Colors.pink[300],
-                    ),
-                    child: FlatButton(
-                      child: Text(
-                        "Adicionar Produto",
-                        style: TextStyle(
-                          color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 30),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(32),
+                color: Colors.pink[300],
+              ),
+              child: FlatButton(
+                child: Text(
+                  "Adicionar Produto",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => AddPage()));
+                },
+              ),
+            ),
+            _shoppingCart.isEmpty
+                ? EmptyList()
+                : Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: ListView.builder(
+                          padding:
+                              EdgeInsets.only(bottom: 100, left: 20, right: 20),
+                          itemBuilder: buildItem,
+                          itemCount: _shoppingCart.length,
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => AddPage()));
-                      },
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          "Total: R\$ 0.00",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding:
-                          EdgeInsets.only(bottom: 100, left: 20, right: 20),
-                      itemBuilder: buildItem,
-                      itemCount: _shoppingCart.length,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Text(
-                      "Total: R\$ 0.00",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                      ),
-                    ),
-                  )
-                ],
-              ),
+          ],
+        ),
       ),
     );
   }
