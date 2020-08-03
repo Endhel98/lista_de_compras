@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_compras/home_page.dart';
+import 'package:lista_de_compras/pages/home_page.dart';
 import 'package:flutter/services.dart';
 
 void main() {

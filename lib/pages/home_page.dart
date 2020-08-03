@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-//import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
+import 'package:lista_de_compras/pages/add_page.dart';
 import 'package:lista_de_compras/widgets/emptyList.dart';
 import 'package:flutter/services.dart';
 import 'package:lista_de_compras/widgets/productName.dart';
@@ -13,10 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  //final _productController = TextEditingController();
-  //MoneyMaskedTextController _priceController = MoneyMaskedTextController();
   List _shoppingCart = List();
-  //GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _focusNode = FocusNode();
 
   @override
@@ -139,7 +136,10 @@ class _HomePageState extends State<HomePage>
                           color: Colors.white,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => AddPage()));
+                      },
                     ),
                   ),
                   Expanded(
