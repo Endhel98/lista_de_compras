@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:lista_de_compras/functionsJson/functions.dart';
 
 class AddPage extends StatelessWidget {
   final MoneyMaskedTextController _priceController =
       MoneyMaskedTextController();
   final _productController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final List shoppingCart;
 
-  // void _addProduct() {
-  //   Map<String, dynamic> product = {};
-  //   product["product"] = _productController.text;
-  //   product["checked"] = false;
-  //   _shoppingCart.add(product);
-  //   saveData(_shoppingCart);
-  // }
+  AddPage({@required this.shoppingCart});
+
+  void _addProduct() {
+    Map<String, dynamic> product = {};
+    product["product"] = _productController.text;
+    product["price"] = _priceController.numberValue;
+    product["checked"] = false;
+    shoppingCart.add(product);
+    saveData(shoppingCart);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +95,7 @@ class AddPage extends StatelessWidget {
                   hintText: "Nome do Produto",
                   hintStyle: TextStyle(color: Colors.white),
                 ),
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
               SizedBox(height: 20.0),
               TextFormField(
@@ -163,7 +168,10 @@ class AddPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {}
+                    if (_formKey.currentState.validate()) {
+                      _addProduct();
+                      Navigator.pop(context, shoppingCart);
+                    }
                   },
                 ),
               ),

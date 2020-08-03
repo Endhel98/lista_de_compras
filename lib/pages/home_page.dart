@@ -126,36 +126,29 @@ class _HomePageState extends State<HomePage>
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => AddPage()));
-                },
+                onPressed: _showAddPage,
               ),
             ),
             _shoppingCart.isEmpty
                 ? EmptyList()
-                : Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: ListView.builder(
-                          padding:
-                              EdgeInsets.only(bottom: 100, left: 20, right: 20),
-                          itemBuilder: buildItem,
-                          itemCount: _shoppingCart.length,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Text(
-                          "Total: R\$ 0.00",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                          ),
-                        ),
-                      )
-                    ],
+                : Expanded(
+                    child: ListView.builder(
+                      padding:
+                          EdgeInsets.only(bottom: 100, left: 20, right: 20),
+                      itemBuilder: buildItem,
+                      itemCount: _shoppingCart.length,
+                    ),
                   ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Text(
+                "Total: R\$ 0.00",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -183,7 +176,7 @@ class _HomePageState extends State<HomePage>
             width: 80,
             child: ProductName(product: _shoppingCart[index]["product"])),
         subtitle: Text(
-          "R\$ 0.00",
+          "R\$ ${_shoppingCart[index]["price"]}",
           style: TextStyle(
             color: Colors.white70,
             fontSize: 16,
@@ -244,5 +237,17 @@ class _HomePageState extends State<HomePage>
         ),
       ),
     );
+  }
+
+  void _showAddPage() async {
+    List recList = await Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => AddPage(
+        shoppingCart: _shoppingCart,
+      ),
+    ));
+    if (recList != null)
+      setState(() {
+        _shoppingCart = recList;
+      });
   }
 }
