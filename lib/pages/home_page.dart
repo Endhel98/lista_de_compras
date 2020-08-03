@@ -36,14 +36,6 @@ class _HomePageState extends State<HomePage>
     ));
   }
 
-  // void _addProduct() {
-  //   Map<String, dynamic> product = {};
-  //   product["product"] = _productController.text;
-  //   product["checked"] = false;
-  //   _shoppingCart.add(product);
-  //   saveData(_shoppingCart);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
