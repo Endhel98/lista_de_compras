@@ -16,17 +16,19 @@ class _HomePageState extends State<HomePage>
   List _shoppingCart = List();
   final _focusNode = FocusNode();
 
+  double _totalPrices;
+
   @override
   void initState() {
     super.initState();
-
-    changeStatusBar();
 
     readData().then((data) {
       setState(() {
         _shoppingCart = json.decode(data);
       });
     });
+
+    changeStatusBar();
   }
 
   void changeStatusBar() {
@@ -36,8 +38,16 @@ class _HomePageState extends State<HomePage>
     ));
   }
 
+  void _addTotalPrices() {
+    _totalPrices = 0.00;
+    for (Map i in _shoppingCart) {
+      _totalPrices += i['price'];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _addTotalPrices();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[600],
@@ -142,7 +152,7 @@ class _HomePageState extends State<HomePage>
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                "Total: R\$ 0.00",
+                "Total: R\$$_totalPrices",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
