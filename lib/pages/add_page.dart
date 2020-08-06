@@ -2,22 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
 
-class AddPage extends StatelessWidget {
+class AddPage extends StatefulWidget {
+  final List shoppingCart;
+  final int index;
+
+  AddPage({@required this.shoppingCart, this.index});
+
+  @override
+  _AddPageState createState() => _AddPageState();
+}
+
+class _AddPageState extends State<AddPage> {
   final MoneyMaskedTextController _priceController =
       MoneyMaskedTextController();
-  final _productController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final List shoppingCart;
 
-  AddPage({@required this.shoppingCart});
+  final _productController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.index != -1) {
+      _productController.text = widget.shoppingCart[widget.index]['product'];
+      _priceController.updateValue(widget.shoppingCart[widget.index]['price']);
+    }
+  }
 
   void _addProduct() {
     Map<String, dynamic> product = {};
     product["product"] = _productController.text;
     product["price"] = _priceController.numberValue;
-    product["checked"] = false;
-    shoppingCart.add(product);
-    saveData(shoppingCart);
+    if (widget.index != -1) {
+      product["checked"] = widget.shoppingCart[widget.index]['checked'];
+      widget.shoppingCart[widget.index] = product;
+    } else {
+      product["checked"] = false;
+      widget.shoppingCart.add(product);
+    }
+    saveData(widget.shoppingCart);
   }
 
   @override
@@ -170,7 +194,7 @@ class AddPage extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _addProduct();
-                      Navigator.pop(context, shoppingCart);
+                      Navigator.pop(context, widget.shoppingCart);
                     }
                   },
                 ),

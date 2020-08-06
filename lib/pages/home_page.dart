@@ -136,7 +136,9 @@ class _HomePageState extends State<HomePage>
                     color: Colors.white,
                   ),
                 ),
-                onPressed: _showAddPage,
+                onPressed: () {
+                  _showAddPage(-1);
+                },
               ),
             ),
             _shoppingCart.isEmpty
@@ -198,7 +200,9 @@ class _HomePageState extends State<HomePage>
             IconButton(
               icon: Icon(Icons.edit),
               color: Colors.white,
-              onPressed: () {},
+              onPressed: () {
+                _showAddPage(index);
+              },
             ),
             IconButton(
               icon: Icon(Icons.remove_circle_outline),
@@ -249,10 +253,11 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  void _showAddPage() async {
+  void _showAddPage(int index) async {
     List recList = await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => AddPage(
         shoppingCart: _shoppingCart,
+        index: index,
       ),
     ));
     if (recList != null)
