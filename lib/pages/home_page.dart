@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage>
 
   void _addTotalPrices() {
     _totalPrices = 0.00;
+
     for (Map i in _shoppingCart) {
       _totalPrices += i['price'];
     }
@@ -158,8 +159,8 @@ class _HomePageState extends State<HomePage>
                       itemCount: _shoppingCart.length,
                     ),
                   ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Text(
                 "Total: R\$${_totalPrices.toStringAsFixed(2)}",
                 style: TextStyle(
