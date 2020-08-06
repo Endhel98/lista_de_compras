@@ -20,11 +20,13 @@ class _AddPageState extends State<AddPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  int _isNotEditingAProduct = -1;
+
   @override
   void initState() {
     super.initState();
 
-    if (widget.index != -1) {
+    if (widget.index != _isNotEditingAProduct) {
       _productController.text = widget.shoppingCart[widget.index]['product'];
       _priceController.updateValue(widget.shoppingCart[widget.index]['price']);
     }
@@ -34,7 +36,7 @@ class _AddPageState extends State<AddPage> {
     Map<String, dynamic> product = {};
     product["product"] = _productController.text;
     product["price"] = _priceController.numberValue;
-    if (widget.index != -1) {
+    if (widget.index != _isNotEditingAProduct) {
       product["checked"] = widget.shoppingCart[widget.index]['checked'];
       widget.shoppingCart[widget.index] = product;
     } else {
@@ -113,7 +115,7 @@ class _AddPageState extends State<AddPage> {
                       color: Colors.pink[300],
                     ),
                   ),
-                  errorStyle: TextStyle(color: Colors.white),
+                  errorStyle: TextStyle(color: Colors.grey[300]),
                   fillColor: Colors.pink[300],
                   filled: true,
                   hintText: "Nome do Produto",
@@ -124,11 +126,6 @@ class _AddPageState extends State<AddPage> {
               SizedBox(height: 20.0),
               TextFormField(
                 controller: _priceController,
-                validator: (_) {
-                  if (_priceController.numberValue == 0.0)
-                    return "Insira o preço do produto!";
-                  return null;
-                },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -176,6 +173,16 @@ class _AddPageState extends State<AddPage> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
+                ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  "Opcional",
+                  style: TextStyle(
+                    color: Colors.grey[300],
+                    fontSize: 12.0,
+                  ),
                 ),
               ),
               SizedBox(height: 40.0),
