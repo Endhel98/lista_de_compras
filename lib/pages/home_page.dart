@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage>
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                "Total: R\$$_totalPrices",
+                "Total: R\$${_totalPrices.toStringAsFixed(2)}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
