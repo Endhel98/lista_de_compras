@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:lista_de_compras/functionsJson/functions.dart';
+import 'package:lista_de_compras/pages/prefix_widget.dart';
+import 'package:lista_de_compras/widgets/input_field.dart';
 
 class AddPage extends StatefulWidget {
   final List shoppingCart;
@@ -21,29 +23,42 @@ class _AddPageState extends State<AddPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   int _isNotEditingAProduct = -1;
+  int _index;
+  List _shoppingCart = [];
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.index != _isNotEditingAProduct) {
-      _productController.text = widget.shoppingCart[widget.index]['product'];
-      _priceController.updateValue(widget.shoppingCart[widget.index]['price']);
+    _index = widget.index;
+    _shoppingCart = widget.shoppingCart;
+
+    if (_index != _isNotEditingAProduct) {
+      _productController.text = _shoppingCart[_index]['product'];
+      _priceController.updateValue(_shoppingCart[_index]['price']);
     }
   }
 
   void _addProduct() {
     Map<String, dynamic> product = {};
+
     product["product"] = _productController.text;
     product["price"] = _priceController.numberValue;
-    if (widget.index != _isNotEditingAProduct) {
-      product["checked"] = widget.shoppingCart[widget.index]['checked'];
-      widget.shoppingCart[widget.index] = product;
+
+    if (_index != _isNotEditingAProduct) {
+      product["checked"] = _shoppingCart[_index]['checked'];
+      _shoppingCart[_index] = product;
     } else {
       product["checked"] = false;
-      widget.shoppingCart.add(product);
+      _shoppingCart.add(product);
     }
-    saveData(widget.shoppingCart);
+
+    saveData(_shoppingCart);
+  }
+
+  String _validator(text) {
+    if (text.isEmpty) return "Insira o nome do produto!";
+    return null;
   }
 
   @override
@@ -80,100 +95,16 @@ class _AddPageState extends State<AddPage> {
             padding: EdgeInsets.symmetric(horizontal: 35.0),
             children: <Widget>[
               SizedBox(height: 50.0),
-              TextFormField(
+              InputField(
                 controller: _productController,
-                validator: (text) {
-                  if (text.isEmpty) return "Insira o nome do produto!";
-                  return null;
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  errorStyle: TextStyle(color: Colors.grey[300]),
-                  fillColor: Colors.pink[300],
-                  filled: true,
-                  hintText: "Nome do Produto",
-                  hintStyle: TextStyle(color: Colors.white),
-                ),
-                style: TextStyle(fontSize: 16.0, color: Colors.white),
+                hint: "Nome do Produto",
+                validator: _validator,
               ),
               SizedBox(height: 20.0),
-              TextFormField(
+              InputField(
                 controller: _priceController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.pink[300],
-                    ),
-                  ),
-                  errorStyle: TextStyle(color: Colors.white),
-                  fillColor: Colors.pink[300],
-                  filled: true,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(top: 13.0, left: 12.0),
-                    child: Text(
-                      "Preço: R\$",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                ),
+                type: TextInputType.number,
+                prefix: PrefixWidget(),
               ),
               Align(
                 alignment: Alignment.topRight,
@@ -188,7 +119,7 @@ class _AddPageState extends State<AddPage> {
               SizedBox(height: 40.0),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32.0),
+                  borderRadius: BorderRadius.circular(15.0),
                   color: Colors.pink[300].withAlpha(200),
                 ),
                 child: FlatButton(
@@ -201,7 +132,7 @@ class _AddPageState extends State<AddPage> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _addProduct();
-                      Navigator.pop(context, widget.shoppingCart);
+                      Navigator.pop(context, _shoppingCart);
                     }
                   },
                 ),

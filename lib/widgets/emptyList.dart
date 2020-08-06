@@ -5,11 +5,11 @@ class EmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView(
-        padding: EdgeInsets.all(115),
+        padding: EdgeInsets.all(115.0),
         children: <Widget>[
           Icon(
             Icons.shopping_cart,
-            size: 50,
+            size: 50.0,
             color: Colors.white,
           ),
           Text(
@@ -17,7 +17,7 @@ class EmptyList extends StatelessWidget {
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 16.0,
             ),
           ),
         ],

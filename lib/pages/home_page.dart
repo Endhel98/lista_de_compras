@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage>
   final _focusNode = FocusNode();
 
   double _totalPrices;
+  int _isNotEditingAProduct = -1;
 
   @override
   void initState() {
@@ -48,6 +49,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     _addTotalPrices();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[600],
@@ -55,7 +57,7 @@ class _HomePageState extends State<HomePage>
         title: Text(
           "Lista de Compras",
           style: TextStyle(
-            fontSize: 23,
+            fontSize: 23.0,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -82,7 +84,8 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                           content: Text(
-                              "Tem certeza que deseja limpar a Lista de Compras?"),
+                            "Tem certeza que deseja limpar a Lista de Compras?",
+                          ),
                           actions: <Widget>[
                             FlatButton(
                               onPressed: () {
@@ -106,7 +109,7 @@ class _HomePageState extends State<HomePage>
                     );
                     _focusNode.unfocus();
                   },
-          )
+          ),
         ],
       ),
       body: Container(
@@ -124,9 +127,10 @@ class _HomePageState extends State<HomePage>
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.symmetric(vertical: 30),
+              width: 180.0,
+              margin: EdgeInsets.symmetric(vertical: 30.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32),
+                borderRadius: BorderRadius.circular(15.0),
                 color: Colors.pink[300],
               ),
               child: FlatButton(
@@ -137,7 +141,7 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
                 onPressed: () {
-                  _showAddPage(-1);
+                  _showAddPage(_isNotEditingAProduct);
                 },
               ),
             ),
@@ -145,19 +149,22 @@ class _HomePageState extends State<HomePage>
                 ? EmptyList()
                 : Expanded(
                     child: ListView.builder(
-                      padding:
-                          EdgeInsets.only(bottom: 100, left: 20, right: 20),
+                      padding: EdgeInsets.only(
+                        bottom: 100.0,
+                        left: 20.0,
+                        right: 20.0,
+                      ),
                       itemBuilder: buildItem,
                       itemCount: _shoppingCart.length,
                     ),
                   ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20.0),
               child: Text(
                 "Total: R\$${_totalPrices.toStringAsFixed(2)}",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 22.0,
                 ),
               ),
             )
@@ -186,7 +193,7 @@ class _HomePageState extends State<HomePage>
         },
         title: SizedBox(
             width: 80,
-            child: ProductName(product: _shoppingCart[index]["product"])),
+            child: ProductName(productName: _shoppingCart[index]["product"])),
         subtitle: Text(
           "R\$ ${_shoppingCart[index]["price"].toStringAsFixed(2)}",
           style: TextStyle(
@@ -254,12 +261,14 @@ class _HomePageState extends State<HomePage>
   }
 
   void _showAddPage(int index) async {
-    List recList = await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => AddPage(
-        shoppingCart: _shoppingCart,
-        index: index,
+    List recList = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AddPage(
+          shoppingCart: _shoppingCart,
+          index: index,
+        ),
       ),
-    ));
+    );
     if (recList != null)
       setState(() {
         _shoppingCart = recList;
