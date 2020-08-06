@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage>
             width: 80,
             child: ProductName(product: _shoppingCart[index]["product"])),
         subtitle: Text(
-          "R\$ ${_shoppingCart[index]["price"]}",
+          "R\$ ${_shoppingCart[index]["price"].toStringAsFixed(2)}",
           style: TextStyle(
             color: Colors.white70,
             fontSize: 16,
